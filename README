@@ -6,3 +6,9 @@
 - tcpdump_cap.sh
 	- server端运行：nohup ./tcpdump_cap.sh <client_ip> <client_port> &
     - client端运行：nohup ./tcpdump_cap.sh <server_ip> <server_port> &
+
+- tx-delay-simple.bt
+	- nohup bpftrace tx-delay-simple.bt | tee /tmp/tx-delay-simple.log &
+
+- tx-delay-full.bt
+	- nohup bpftrace tx-delay-full.bt | tee /tmp/tx-delay-full.log &

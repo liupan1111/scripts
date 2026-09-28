@@ -1,0 +1,49 @@
+BEGIN
+{
+    printf("Tracing ens3; showing software TX delay >= 10 ms\n");
+}
+
+tracepoint:net:net_dev_queue
+/str(args->name) == "ens3"/
+{
+    @start[args->skbaddr] = nsecs;
+    @len[args->skbaddr] = args->len;
+    @enqueue_cpu[args->skbaddr] = cpu;
+    @busy[args->skbaddr] = 0;
+}
+
+tracepoint:net:net_dev_start_xmit
+/str(args->name) == "ens3" && @start[args->skbaddr]/
+{
+    @txq[args->skbaddr] = args->queue_mapping;
+}
+
+tracepoint:net:net_dev_xmit
+/str(args->name) == "ens3" && @start[args->skbaddr]/
+{
+    if (args->rc == 16) {
+        @busy[args->skbaddr] = @busy[args->skbaddr] + 1;
+    } else {
+        $delay_us = (nsecs - @start[args->skbaddr]) / 1000;
+
+        if ($delay_us >= 10000) {
+            time("%F %H:%M:%S ");
+            printf("delay=%llu.%03llu ms skb=%p len=%u txq=%u enqueue_cpu=%u xmit_cpu=%u busy=%u rc=%d\n",
+                   $delay_us / 1000,
+                   $delay_us % 1000,
+                   args->skbaddr,
+                   @len[args->skbaddr],
+                   @txq[args->skbaddr],
+                   @enqueue_cpu[args->skbaddr],
+                   cpu,
+                   @busy[args->skbaddr],
+                   args->rc);
+        }
+
+        delete(@start[args->skbaddr]);
+        delete(@len[args->skbaddr]);
+        delete(@enqueue_cpu[args->skbaddr]);
+        delete(@busy[args->skbaddr]);
+        delete(@txq[args->skbaddr]);
+    }
+}

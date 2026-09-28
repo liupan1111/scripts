@@ -1,0 +1,85 @@
+BEGIN
+{
+    printf("Tracing ens3; showing software TX delay >= 10 ms\n");
+}
+
+tracepoint:net:net_dev_queue
+/str(args->name) == "ens3"/
+{
+    @start[args->skbaddr] = nsecs;
+    @len[args->skbaddr] = args->len;
+    @enqueue_cpu[args->skbaddr] = cpu;
+    @busy[args->skbaddr] = 0;
+}
+
+tracepoint:net:net_dev_start_xmit
+/str(args->name) == "ens3" && @start[args->skbaddr]/
+{
+    $skb = (struct sk_buff *)args->skbaddr;
+
+    @xmit_start[args->skbaddr] = nsecs;
+    @txq[args->skbaddr] = args->queue_mapping;
+    @priority[args->skbaddr] = $skb->priority;
+    @gso_size[args->skbaddr] = args->gso_size;
+    @gso_segs[args->skbaddr] = args->gso_segs;
+}
+
+tracepoint:net:net_dev_xmit
+/str(args->name) == "ens3" && @start[args->skbaddr]/
+{
+    if (args->rc == 16) {
+        @busy[args->skbaddr] = @busy[args->skbaddr] + 1;
+    } else {
+        $end_ns = nsecs;
+        $event_tai_ns = nsecs(sw_tai);
+        $total_us = ($end_ns - @start[args->skbaddr]) / 1000;
+        $pre_xmit_us = (uint64)0;
+        $driver_us = (uint64)0;
+
+        if (@xmit_start[args->skbaddr]) {
+            $pre_xmit_us =
+                (@xmit_start[args->skbaddr] -
+                 @start[args->skbaddr]) / 1000;
+            $driver_us =
+                ($end_ns - @xmit_start[args->skbaddr]) / 1000;
+        }
+
+        if ($total_us >= 10000) {
+            time("%F %H:%M:%S ");
+            printf("event_tai_ns=%llu total=%llu.%03llu_ms pre_xmit=%llu.%03llu_ms driver_call=%llu.%03llu_ms skb=%p len=%u xmit_len=%u txq=%u priority=%u gso_size=%u gso_segs=%u enqueue_cpu=%u xmit_cpu=%u busy=%u rc=%d\n",
+                   $event_tai_ns,
+                   $total_us / 1000, $total_us % 1000,
+                   $pre_xmit_us / 1000, $pre_xmit_us % 1000,
+                   $driver_us / 1000, $driver_us % 1000,
+                   args->skbaddr,
+                   @len[args->skbaddr], args->len,
+                   @txq[args->skbaddr], @priority[args->skbaddr],
+                   @gso_size[args->skbaddr], @gso_segs[args->skbaddr],
+                   @enqueue_cpu[args->skbaddr], cpu,
+                   @busy[args->skbaddr], args->rc);
+        }
+
+        delete(@start[args->skbaddr]);
+        delete(@xmit_start[args->skbaddr]);
+        delete(@len[args->skbaddr]);
+        delete(@enqueue_cpu[args->skbaddr]);
+        delete(@busy[args->skbaddr]);
+        delete(@txq[args->skbaddr]);
+        delete(@priority[args->skbaddr]);
+        delete(@gso_size[args->skbaddr]);
+        delete(@gso_segs[args->skbaddr]);
+    }
+}
+
+END
+{
+    clear(@start);
+    clear(@xmit_start);
+    clear(@len);
+    clear(@enqueue_cpu);
+    clear(@busy);
+    clear(@txq);
+    clear(@priority);
+    clear(@gso_size);
+    clear(@gso_segs);
+}
