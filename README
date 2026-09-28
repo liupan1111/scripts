@@ -1,0 +1,8 @@
+- test_read_latency.cpp
+	- compile: g++ -std=c++17 -O2 tests/tcp_read_latency.cpp -o tcp_read_latency
+	- server端运行：
+		- ./tcp_read_latency --server 9000
+	- client端运行：
+		- ./tcp_read_latency --client 19.16.25.82:9000 --slow-ms 10  --out /tmp/tcp_read_latency.log
+
+
