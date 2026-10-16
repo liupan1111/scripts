@@ -1,0 +1,993 @@
+{
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Replica read pipeline: staged IOPS / bandwidth / latency (all 8 metric families).",
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 2,
+    "id": 2,
+    "iteration": 1788250746829,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 40,
+        "panels": [],
+        "title": "IOPS",
+        "type": "row"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "Storage Prometheus",
+        "editable": true,
+        "fill": 1,
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 41,
+        "legend": {
+          "avg": true,
+          "current": true,
+          "max": true,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 3,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(rate(io_worker_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\",outcome=~\"$outcome\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_requests_total",
+            "metric": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "IO Worker IOPS",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": false,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "Storage Prometheus",
+        "editable": true,
+        "fill": 1,
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "id": 48,
+        "legend": {
+          "avg": true,
+          "current": true,
+          "max": true,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 3,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(rate(listener_thread_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\",outcome=~\"$outcome\",listener_id=~\"$listener_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "listener_thread_requests_total",
+            "metric": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Listener IOPS",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": false,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 17
+        },
+        "id": 50,
+        "panels": [],
+        "title": "Bandwidth",
+        "type": "row"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "Storage Prometheus",
+        "editable": true,
+        "fill": 1,
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 18
+        },
+        "id": 43,
+        "legend": {
+          "avg": true,
+          "current": true,
+          "max": true,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 3,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(rate(io_worker_bw_total{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_bw_total",
+            "metric": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "IO Worker Bandwidth",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": false,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 26
+        },
+        "id": 51,
+        "panels": [],
+        "title": "Latency",
+        "type": "row"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "Storage Prometheus",
+        "editable": true,
+        "fill": 1,
+        "gridPos": {
+          "h": 9,
+          "w": 24,
+          "x": 0,
+          "y": 27
+        },
+        "id": 44,
+        "legend": {
+          "avg": true,
+          "current": true,
+          "max": true,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 3,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sum(rate(oss_io_lifetime_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}[$rate_interval])) / sum(rate(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "oss_io_lifetime_lat",
+            "metric": "",
+            "refId": "A"
+          },
+          {
+            "expr": "sum(rate(listener_thread_from_recv_header_to_queued_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",listener_id=~\"$listener_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",listener_id=~\"$listener_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "listener_thread_from_recv_header_to_queued_lat",
+            "metric": "",
+            "refId": "B"
+          },
+          {
+            "expr": "sum(rate(listener_thread_response_sock_dequeue_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",listener_id=~\"$listener_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(listener_thread_response_sock_dequeue_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",listener_id=~\"$listener_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "listener_thread_response_sock_dequeue_lat",
+            "metric": "",
+            "refId": "J"
+          },
+          {
+            "expr": "sum(rate(io_worker_request_dequeue_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_request_dequeue_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_request_dequeue_lat",
+            "metric": "",
+            "refId": "L"
+          },
+          {
+            "expr": "sum(rate(io_worker_prepare_iosubmit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_prepare_iosubmit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_prepare_iosubmit_lat",
+            "metric": "",
+            "refId": "C"
+          },
+          {
+            "expr": "sum(rate(io_worker_iosubmit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_iosubmit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_iosubmit_lat",
+            "metric": "",
+            "refId": "D"
+          },
+          {
+            "expr": "sum(rate(io_worker_disk_wait_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_disk_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_disk_wait_lat",
+            "metric": "",
+            "refId": "E"
+          },
+          {
+            "expr": "sum(rate(io_worker_ready_list_queued_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_ready_list_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_ready_list_queued_lat",
+            "metric": "",
+            "refId": "M"
+          },
+          {
+            "expr": "sum(rate(io_worker_recv_msg_payload_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_recv_msg_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_recv_msg_payload_lat",
+            "metric": "",
+            "refId": "I"
+          },
+          {
+            "expr": "sum(rate(io_worker_response_sock_enqueue_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_response_sock_enqueue_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_response_sock_enqueue_lat",
+            "metric": "",
+            "refId": "F"
+          },
+          {
+            "expr": "sum(rate(io_worker_response_len_to_client_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_response_len_to_client_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_response_len_to_client_lat",
+            "metric": "",
+            "refId": "G"
+          },
+          {
+            "expr": "sum(rate(io_worker_response_data_to_client_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])) / sum(rate(io_worker_response_data_to_client_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval]))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_response_data_to_client_lat",
+            "metric": "",
+            "refId": "H"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "分段 Latency avg",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": false,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "s",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "Storage Prometheus",
+        "editable": true,
+        "fill": 1,
+        "gridPos": {
+          "h": 9,
+          "w": 24,
+          "x": 0,
+          "y": 36
+        },
+        "id": 46,
+        "legend": {
+          "avg": true,
+          "current": true,
+          "max": true,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 3,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "oss_io_lifetime_lat",
+            "metric": "",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",listener_id=~\"$listener_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "listener_thread_from_recv_header_to_queued_lat",
+            "metric": "",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(listener_thread_response_sock_dequeue_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",listener_id=~\"$listener_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "listener_thread_response_sock_dequeue_lat",
+            "metric": "",
+            "refId": "J"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_request_dequeue_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_request_dequeue_lat",
+            "metric": "",
+            "refId": "L"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_prepare_iosubmit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_prepare_iosubmit_lat",
+            "metric": "",
+            "refId": "C"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_iosubmit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_iosubmit_lat",
+            "metric": "",
+            "refId": "D"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_disk_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_disk_wait_lat",
+            "metric": "",
+            "refId": "E"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_ready_list_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_ready_list_queued_lat",
+            "metric": "",
+            "refId": "M"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_recv_msg_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_recv_msg_payload_lat",
+            "metric": "",
+            "refId": "I"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_response_sock_enqueue_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_response_sock_enqueue_lat",
+            "metric": "",
+            "refId": "F"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_response_len_to_client_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_response_len_to_client_lat",
+            "metric": "",
+            "refId": "G"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum by (le) (rate(io_worker_response_data_to_client_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",worker_id=~\"$worker_id\",osd_id=~\"$osd_id\",op=~\"$op\"}[$rate_interval])))",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "intervalFactor": 2,
+            "legendFormat": "io_worker_response_data_to_client_lat",
+            "metric": "",
+            "refId": "H"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "分段 Latency p99",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "transparent": false,
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "s",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 16,
+    "style": "dark",
+    "tags": [
+      "fs",
+      "replica-read",
+      "grafana-5.2.2",
+      "latency",
+      "oss",
+      "prometheus",
+      "storage"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allValue": ".*",
+          "current": {
+            "text": "192.168.255.118:9009",
+            "value": "192.168.255.118:9009"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Exporter instance",
+          "multi": true,
+          "name": "instance",
+          "options": [],
+          "query": "label_values(storage_metrics_collect_success, instance)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "OSS ID",
+          "multi": true,
+          "name": "oss_id",
+          "options": [],
+          "query": "label_values(storage_metrics_collect_success{instance=~\"$instance\"}, oss_id)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 3,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Outcome",
+          "multi": true,
+          "name": "outcome",
+          "options": [],
+          "query": "label_values(io_worker_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\"}, outcome)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "op",
+          "multi": true,
+          "name": "op",
+          "options": [],
+          "query": "label_values(io_worker_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\"}, op)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "osd_id",
+          "multi": true,
+          "name": "osd_id",
+          "options": [],
+          "query": "label_values(io_worker_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\"}, osd_id)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 3,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Worker ID",
+          "multi": true,
+          "name": "worker_id",
+          "options": [],
+          "query": "label_values(io_worker_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\"}, worker_id)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Storage Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Listener ID",
+          "multi": true,
+          "name": "listener_id",
+          "options": [],
+          "query": "label_values(listener_thread_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\"}, listener_id)",
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "auto": false,
+          "auto_count": 30,
+          "auto_min": "1m",
+          "current": {
+            "selected": true,
+            "text": "5m",
+            "value": "5m"
+          },
+          "hide": 0,
+          "label": "Rate window",
+          "name": "rate_interval",
+          "options": [
+            {
+              "selected": true,
+              "text": "1m",
+              "value": "1m"
+            },
+            {
+              "selected": false,
+              "text": "5m",
+              "value": "5m"
+            },
+            {
+              "selected": false,
+              "text": "15m",
+              "value": "15m"
+            },
+            {
+              "selected": false,
+              "text": "30m",
+              "value": "30m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            }
+          ],
+          "query": "1m,5m,15m,30m,1h",
+          "refresh": 2,
+          "type": "interval"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    },
+    "timezone": "browser",
+    "title": "OSS Replica Read Latency (Grafana 5.2.2)",
+    "uid": "oss-replica-read-latency-grafana-522"
+  },
+  "meta": {
+    "snapshot": "dev_yrcache_2.3.118-adapted",
+    "source": "http://192.168.255.118:3000",
+    "source_version": 3,
+    "backup_time": "2026-10-08 20:48:53",
+    "note": "2.3 的 118 环境适配版: response_data_to_client 为合成版(未拆分), 其余同 2.3"
+  }
+}
