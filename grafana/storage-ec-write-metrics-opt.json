@@ -1,0 +1,3838 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Read、Master Write、Slave Write 各自按 avg、P99、P99.99 分行展示阶段时延。",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "panels": [
+    {
+      "id": 400,
+      "type": "row",
+      "title": "IO Throughput · IOPS",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Requests per second broken down by op. Sum of rate(io_requests_total) over selected instance/oss/osd.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "iops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 1
+          },
+          "id": 301,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "sum by (op) (rate(io_requests_total{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}[$rate_interval]))",
+              "legendFormat": "{{op}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "IO Throughput · IOPS",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 401,
+      "type": "row",
+      "title": "IO Throughput · Bandwidth",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Bytes per second broken down by op. Sum of rate(io_bytes_total) over selected instance/oss/osd.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 13
+          },
+          "id": 302,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "sum by (op) (rate(io_bytes_total{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}[$rate_interval]))",
+              "legendFormat": "{{op}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "IO Throughput · Bandwidth",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 402,
+      "type": "row",
+      "title": "Read · avg",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "每条曲线代表一个阶段；单位为 µs。 Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 26
+          },
+          "id": 201,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(oss_io_lifetime_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval])) / sum(rate(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (read)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_read_from_init_to_ready_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_read_from_init_to_ready_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_read_local_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_send_data_done_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_send_data_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_cleanup_done_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_cleanup_done_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_send_rts_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_send_rts_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_recv_rts_resp_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_recv_rts_resp_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_resp_client_done_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_resp_client_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(listener_thread_from_recv_header_to_queued_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval])) / sum(rate(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (read)",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_queue_wait_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (read)",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_op_release_socket_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (read)",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_op_recv_payload_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (read)",
+              "range": true,
+              "refId": "M"
+            }
+          ],
+          "title": "Read · avg",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 403,
+      "type": "row",
+      "title": "Read · p99",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "每条曲线代表一个阶段；单位为 µs。 Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 38
+          },
+          "id": 202,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (read)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_read_from_init_to_ready_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_read_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_send_data_done_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_cleanup_done_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_send_rts_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_recv_rts_resp_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_resp_client_done_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (read)",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_queue_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (read)",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_op_release_socket_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (read)",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_op_recv_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (read)",
+              "range": true,
+              "refId": "M"
+            }
+          ],
+          "title": "Read · p99",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 404,
+      "type": "row",
+      "title": "Read · p99.99",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "每条曲线代表一个阶段；单位为 µs。P99.99 由 histogram bucket 估算。 Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 50
+          },
+          "id": 203,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (read)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_read_from_init_to_ready_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_read_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_send_data_done_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_cleanup_done_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_send_rts_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_recv_rts_resp_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_resp_client_done_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (read)",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_queue_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (read)",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_op_release_socket_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (read)",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_op_recv_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (read)",
+              "range": true,
+              "refId": "M"
+            }
+          ],
+          "title": "Read · p99.99",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 405,
+      "type": "row",
+      "title": "Read · >10ms",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "读路径每个阶段一条曲线，值为 $rate_interval 窗口内超过 10ms 的请求累计个数（le 桶边界精确）。无超阈值请求时贴 0。",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 62
+          },
+          "id": 305,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))-sum(increase(oss_io_lifetime_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "oss_io_lifetime_lat",
+              "range": true,
+              "refId": "S01"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_from_init_to_ready_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_from_init_to_ready_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "S02"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_local_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "S03"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_data_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_data_done_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "S04"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_cleanup_done_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_cleanup_done_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "S05"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_rts_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_rts_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "S06"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_recv_rts_resp_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_recv_rts_resp_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "S07"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_resp_client_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_resp_client_done_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "S08"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))-sum(increase(listener_thread_from_recv_header_to_queued_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat",
+              "range": true,
+              "refId": "S10"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_queue_wait_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_queue_wait_lat",
+              "range": true,
+              "refId": "S11"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_release_socket_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_release_socket_lat",
+              "range": true,
+              "refId": "S12"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_recv_payload_lat_bucket{le=\"0.01\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_recv_payload_lat",
+              "range": true,
+              "refId": "S13"
+            }
+          ],
+          "title": "Read · >10ms",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 406,
+      "type": "row",
+      "title": "Read · >25ms",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "读路径每个阶段一条曲线，值为 $rate_interval 窗口内超过 25ms 的请求累计个数（le=0.025 桶边界精确）。无超阈值请求时贴 0。",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 74
+          },
+          "id": 308,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))-sum(increase(oss_io_lifetime_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "oss_io_lifetime_lat",
+              "range": true,
+              "refId": "S01"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_from_init_to_ready_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_from_init_to_ready_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "S02"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_local_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "S03"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_data_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_data_done_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "S04"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_cleanup_done_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_cleanup_done_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "S05"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_rts_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_rts_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "S06"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_recv_rts_resp_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_recv_rts_resp_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "S07"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_resp_client_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_resp_client_done_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "S08"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))-sum(increase(listener_thread_from_recv_header_to_queued_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat",
+              "range": true,
+              "refId": "S10"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_queue_wait_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_queue_wait_lat",
+              "range": true,
+              "refId": "S11"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_release_socket_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_release_socket_lat",
+              "range": true,
+              "refId": "S12"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_recv_payload_lat_bucket{le=\"0.025\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_recv_payload_lat",
+              "range": true,
+              "refId": "S13"
+            }
+          ],
+          "title": "Read · >25ms",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 407,
+      "type": "row",
+      "title": "Read · >50ms",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "读路径每个阶段一条曲线，值为 $rate_interval 窗口内超过 50ms 的请求累计个数（le 桶边界精确）。无超阈值请求时贴 0。",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 86
+          },
+          "id": 306,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))-sum(increase(oss_io_lifetime_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "oss_io_lifetime_lat",
+              "range": true,
+              "refId": "S01"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_from_init_to_ready_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_from_init_to_ready_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "S02"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_local_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "S03"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_data_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_data_done_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "S04"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_cleanup_done_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_cleanup_done_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "S05"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_rts_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_rts_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "S06"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_recv_rts_resp_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_recv_rts_resp_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "S07"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_resp_client_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_resp_client_done_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "S08"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))-sum(increase(listener_thread_from_recv_header_to_queued_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat",
+              "range": true,
+              "refId": "S10"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_queue_wait_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_queue_wait_lat",
+              "range": true,
+              "refId": "S11"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_release_socket_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_release_socket_lat",
+              "range": true,
+              "refId": "S12"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_recv_payload_lat_bucket{le=\"0.05\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_recv_payload_lat",
+              "range": true,
+              "refId": "S13"
+            }
+          ],
+          "title": "Read · >50ms",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 408,
+      "type": "row",
+      "title": "Read · >100ms",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "读路径每个阶段一条曲线，值为 $rate_interval 窗口内超过 100ms 的请求累计个数（le 桶边界精确）。无超阈值请求时贴 0。",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 98
+          },
+          "id": 307,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))-sum(increase(oss_io_lifetime_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "oss_io_lifetime_lat",
+              "range": true,
+              "refId": "S01"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_from_init_to_ready_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_from_init_to_ready_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_from_init_to_ready_lat",
+              "range": true,
+              "refId": "S02"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_read_local_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_read_local_lat",
+              "range": true,
+              "refId": "S03"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_data_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_data_done_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_data_done_lat",
+              "range": true,
+              "refId": "S04"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_cleanup_done_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_cleanup_done_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_cleanup_done",
+              "range": true,
+              "refId": "S05"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_send_rts_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_send_rts_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_send_rts_lat",
+              "range": true,
+              "refId": "S06"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_recv_rts_resp_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_recv_rts_resp_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_recv_rts_resp_lat",
+              "range": true,
+              "refId": "S07"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_resp_client_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_resp_client_done_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_resp_client_done_lat",
+              "range": true,
+              "refId": "S08"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))-sum(increase(listener_thread_from_recv_header_to_queued_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",listener_id=~\"$listener_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat",
+              "range": true,
+              "refId": "S10"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_queue_wait_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_queue_wait_lat",
+              "range": true,
+              "refId": "S11"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_release_socket_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_release_socket_lat",
+              "range": true,
+              "refId": "S12"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "clamp_min((sum(increase(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))-sum(increase(io_worker_op_recv_payload_lat_bucket{le=\"0.1\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"read\",worker_id=~\"$worker_id\"}[$rate_interval]))) or on() vector(0), 0)",
+              "legendFormat": "io_worker_op_recv_payload_lat",
+              "range": true,
+              "refId": "S13"
+            }
+          ],
+          "title": "Read · >100ms",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 409,
+      "type": "row",
+      "title": "Master Write · avg",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Write OSD grouping: Master 101/203; Slave all other OSD IDs. The OSD ID dropdown further filters the selected group. Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 111
+          },
+          "id": 205,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(oss_io_lifetime_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\"}[$rate_interval])) / sum(rate(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_recv_client_data_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_recv_client_data_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_recv_client_data_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_submit_write_msg_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_submit_write_msg_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_write_msg_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_read_local_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_read_local_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_recv_old_data_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_recv_old_data_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_recv_old_data_lat",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_compute_ec_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_compute_ec_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_compute_ec_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_submit_precommit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_submit_precommit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_precommit_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_wait_precommit_reply_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_wait_precommit_reply_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_wait_precommit_reply_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_submit_commit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_submit_commit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_commit_lat",
+              "range": true,
+              "refId": "I"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_flush_local_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_flush_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_flush_local_lat",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_wait_commit_reply_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_wait_commit_reply_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_wait_commit_reply_lat",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_submit_committed_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_submit_committed_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_committed_lat",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_cleanup_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_cleanup_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_cleanup_lat",
+              "range": true,
+              "refId": "M"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_master_op_resp_client_done_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_master_op_resp_client_done_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_op_resp_client_done_lat",
+              "range": true,
+              "refId": "N"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_op_release_socket_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "O"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_op_recv_payload_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "P"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_queue_wait_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "Q"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(listener_thread_from_recv_header_to_queued_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval])) / sum(rate(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "R"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_from_init_to_ready_lat_sum{role=\"master\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_from_init_to_ready_lat_count{role=\"master\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B1"
+            }
+          ],
+          "title": "Master Write · avg",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 410,
+      "type": "row",
+      "title": "Master Write · p99",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Write OSD grouping: Master 101/203; Slave all other OSD IDs. The OSD ID dropdown further filters the selected group. Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 123
+          },
+          "id": 206,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_recv_client_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_recv_client_data_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_submit_write_msg_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_write_msg_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_read_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_read_local_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_recv_old_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_recv_old_data_lat",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_compute_ec_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_compute_ec_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_submit_precommit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_precommit_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_wait_precommit_reply_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_wait_precommit_reply_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_submit_commit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_commit_lat",
+              "range": true,
+              "refId": "I"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_flush_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_flush_local_lat",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_wait_commit_reply_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_wait_commit_reply_lat",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_submit_committed_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_committed_lat",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_cleanup_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_cleanup_lat",
+              "range": true,
+              "refId": "M"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_master_op_resp_client_done_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_op_resp_client_done_lat",
+              "range": true,
+              "refId": "N"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_op_release_socket_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "O"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_op_recv_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "P"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_queue_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "Q"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "R"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_from_init_to_ready_lat_bucket{role=\"master\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B1"
+            }
+          ],
+          "title": "Master Write · p99",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 411,
+      "type": "row",
+      "title": "Master Write · p99.99",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Write OSD grouping: Master 101/203; Slave all other OSD IDs. The OSD ID dropdown further filters the selected group. P99.99 is estimated from histogram buckets. Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 135
+          },
+          "id": 207,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_recv_client_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_recv_client_data_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_submit_write_msg_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_write_msg_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_read_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_read_local_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_recv_old_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_recv_old_data_lat",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_compute_ec_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_compute_ec_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_submit_precommit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_precommit_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_wait_precommit_reply_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_wait_precommit_reply_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_submit_commit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_commit_lat",
+              "range": true,
+              "refId": "I"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_flush_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_flush_local_lat",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_wait_commit_reply_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_wait_commit_reply_lat",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_submit_committed_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_submit_committed_lat",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_cleanup_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_cleanup_lat",
+              "range": true,
+              "refId": "M"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_master_op_resp_client_done_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_master_op_resp_client_done_lat",
+              "range": true,
+              "refId": "N"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_op_release_socket_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "O"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_op_recv_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "P"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_queue_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "Q"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id=~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (write master OSDs 101,203)",
+              "range": true,
+              "refId": "R"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_from_init_to_ready_lat_bucket{role=\"master\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id=~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B1"
+            }
+          ],
+          "title": "Master Write · p99.99",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 412,
+      "type": "row",
+      "title": "Slave Write · avg",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Write OSD grouping: Master 101/203; Slave all other OSD IDs. The OSD ID dropdown further filters the selected group. Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 148
+          },
+          "id": 209,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(oss_io_lifetime_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\"}[$rate_interval])) / sum(rate(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (write slave OSDs)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_read_local_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_read_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_read_local_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_submit_old_data_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_submit_old_data_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_submit_old_data_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_recv_data_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_recv_data_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_recv_data_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_reply_precommit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_reply_precommit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_reply_precommit_lat",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_wait_commit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_wait_commit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_wait_commit_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_flush_local_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_flush_local_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_flush_local_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_reply_commit_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_reply_commit_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_reply_commit_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_wait_committed_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_wait_committed_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_wait_committed_lat",
+              "range": true,
+              "refId": "I"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_slave_cleanup_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_slave_cleanup_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_cleanup_lat",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_op_release_socket_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_op_release_socket_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (write slave OSDs)",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_op_recv_payload_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_op_recv_payload_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (write slave OSDs)",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_queue_wait_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (write slave OSDs)",
+              "range": true,
+              "refId": "M"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(listener_thread_from_recv_header_to_queued_lat_sum{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval])) / sum(rate(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (write slave OSDs)",
+              "range": true,
+              "refId": "N"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((sum(rate(io_worker_from_init_to_ready_lat_sum{role=\"slave\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])) / sum(rate(io_worker_from_init_to_ready_lat_count{role=\"slave\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval]))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B1"
+            }
+          ],
+          "title": "Slave Write · avg",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 413,
+      "type": "row",
+      "title": "Slave Write · p99",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Write OSD grouping: Master 101/203; Slave all other OSD IDs. The OSD ID dropdown further filters the selected group. Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 160
+          },
+          "id": 210,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (write slave OSDs)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_read_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_read_local_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_submit_old_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_submit_old_data_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_recv_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_recv_data_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_reply_precommit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_reply_precommit_lat",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_wait_commit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_wait_commit_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_flush_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_flush_local_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_reply_commit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_reply_commit_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_wait_committed_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_wait_committed_lat",
+              "range": true,
+              "refId": "I"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_slave_cleanup_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_cleanup_lat",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_op_release_socket_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (write slave OSDs)",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_op_recv_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (write slave OSDs)",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_queue_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (write slave OSDs)",
+              "range": true,
+              "refId": "M"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (write slave OSDs)",
+              "range": true,
+              "refId": "N"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.99, sum by (le) (rate(io_worker_from_init_to_ready_lat_bucket{role=\"slave\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B1"
+            }
+          ],
+          "title": "Slave Write · p99",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    },
+    {
+      "id": 414,
+      "type": "row",
+      "title": "Slave Write · p99.99",
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "panels": [
+        {
+          "datasource": "storage-prometheus",
+          "description": "Write OSD grouping: Master 101/203; Slave all other OSD IDs. The OSD ID dropdown further filters the selected group. P99.99 is estimated from histogram buckets. Worker ID filters IO Worker curves. Listener ID filters listener_thread ingress curves via listener_id. Total lifetime has neither label and remains aggregate.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 8,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.01
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "suffix:µs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 172
+          },
+          "id": 211,
+          "options": {
+            "legend": {
+              "calcs": [
+                "max",
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(oss_io_lifetime_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "oss_io_lifetime_lat (write slave OSDs)",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_read_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_read_local_lat",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_submit_old_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_submit_old_data_lat",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_recv_data_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_recv_data_lat",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_reply_precommit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_reply_precommit_lat",
+              "range": true,
+              "refId": "E"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_wait_commit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_wait_commit_lat",
+              "range": true,
+              "refId": "F"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_flush_local_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_flush_local_lat",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_reply_commit_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_reply_commit_lat",
+              "range": true,
+              "refId": "H"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_wait_committed_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_wait_committed_lat",
+              "range": true,
+              "refId": "I"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_slave_cleanup_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_slave_cleanup_lat",
+              "range": true,
+              "refId": "J"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_op_release_socket_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_release_socket_lat (write slave OSDs)",
+              "range": true,
+              "refId": "K"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_op_recv_payload_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_op_recv_payload_lat (write slave OSDs)",
+              "range": true,
+              "refId": "L"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_queue_wait_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_queue_wait_lat (write slave OSDs)",
+              "range": true,
+              "refId": "M"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(listener_thread_from_recv_header_to_queued_lat_bucket{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",op=\"write\",osd_id!~\"101|203\",listener_id=~\"$listener_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "listener_thread_from_recv_header_to_queued_lat (write slave OSDs)",
+              "range": true,
+              "refId": "N"
+            },
+            {
+              "datasource": "storage-prometheus",
+              "editorMode": "code",
+              "expr": "((histogram_quantile(0.9999, sum by (le) (rate(io_worker_from_init_to_ready_lat_bucket{role=\"slave\",instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\",osd_id!~\"101|203\",worker_id=~\"$worker_id\"}[$rate_interval])))) * 1e6) > 0",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "io_worker_from_init_to_ready_lat",
+              "range": true,
+              "refId": "B1"
+            }
+          ],
+          "title": "Slave Write · p99.99",
+          "type": "timeseries",
+          "interval": "1m"
+        }
+      ]
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "storage",
+    "perfcounter",
+    "latency",
+    "oss",
+    "ec-write",
+    "prometheus"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "storage-prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Exporter instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": "label_values(storage_metrics_collect_success, instance)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "storage-prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": "OSS ID",
+        "multi": true,
+        "name": "oss_id",
+        "options": [],
+        "query": "label_values(storage_metrics_collect_success{instance=~\"$instance\"}, oss_id)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "storage-prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": "OSD ID",
+        "multi": true,
+        "name": "osd_id",
+        "options": [],
+        "query": "label_values(oss_io_lifetime_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\"}, osd_id)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "storage-prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Worker ID",
+        "multi": true,
+        "name": "worker_id",
+        "options": [],
+        "query": "label_values(io_worker_queue_wait_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}, worker_id)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "storage-prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Listener ID",
+        "multi": true,
+        "name": "listener_id",
+        "options": [],
+        "query": "label_values(listener_thread_from_recv_header_to_queued_lat_count{instance=~\"$instance\",oss_id=~\"$oss_id\",osd_id=~\"$osd_id\"}, listener_id)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "1m",
+        "current": {
+          "selected": true,
+          "text": "5m",
+          "value": "5m"
+        },
+        "hide": 0,
+        "label": "Rate window",
+        "name": "rate_interval",
+        "options": [
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": true,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "15m",
+            "value": "15m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          }
+        ],
+        "query": "1m,5m,15m,30m,1h",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Storage PerfCounter - Read / Master Write / Slave Write · Lite",
+  "uid": "oss-ec-write-latency-grafana-522-lite",
+  "version": 1,
+  "weekStart": ""
+}
